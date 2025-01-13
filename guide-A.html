@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Final Project-美食導覽</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Import Google Icon Font -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Import jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Import Materialize CSS -->
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="screen,projection"/>
+
+    <!-- Import OwlCarousel CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+     <!-- Import Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- Import OwlCarousel JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
+
+    <!-- Let browser know the website is optimized for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <style>
+      body {
+        background-color: #f4e3d7; /* 背景色 */
+      }
+    </style>
+    
+    
+ 
+    
+  </head>
+  
+
+  <body>
+    <!-- Navbar -->
+    <nav class="brown lighten-3">
+      <div class="nav-wrapper">
+        <a href="index.html">
+          <img src="https://i.ibb.co/gF9kdy2/logo.png" alt="logo" style="height:60px;">
+        </a>
+        <a href="index.html" class="brand-logo">台灣美食導覽地圖</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="index.html">首頁</a></li>
+          <li><a href="about.html">關於理念</a></li>
+          <li><a href="guide-A.html">美食導覽</a></li>
+          <li><a href="contact.html">聯絡我們</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Canvas Section -->
+    <div class="row" id="demo" style="text-align: center;">
+      <h4>您想去哪裡？</h4>
+      
+      <canvas id="imageCanvas" width="500" height="500" ></canvas>
+    </div>
+    
+ 
+
+
+    <!-- Footer -->
+    <footer class="page-footer brown lighten-3">
+      <div class="container">
+        <div class="row">
+          <!-- 左半邊內容 -->
+          <div class="col s12 m6">
+            <h5 class="white-text">Thanks for visiting my website!! :D</h5>
+          </div>
+          <!-- 右半邊內容 -->
+          <div class="col s12 m6">
+            <a class="grey-text text-lighten-3" href="mailto:950522lin@gmail.com">
+              <img src="https://i.ibb.co/J7h06zf/email.png" alt="email">
+            </a>
+            <a class="grey-text text-lighten-3" href="https://www.instagram.com/ylin._522/">
+              <img src="https://i.ibb.co/7J6kBrF/instagram.png" alt="instagram">
+            </a>
+            <a class="grey-text text-lighten-3" href="https://www.facebook.com/profile.php?id=100018611343996">
+              <img src="https://i.ibb.co/swxVbBC/facebook.png" alt="facebook">
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- 版權聲明 -->
+      <div class="footer-copyright">
+        <div class="container">
+          © 2025 Copyright Text
+          <a class="grey-text text-lighten-4 right" href="https://docs.google.com/forms/d/e/1FAIpQLSevRlnLs5_9c_527IJwfi_hkhHmWIgHi4sF7HzYSi8IfEHnEQ/viewform?usp=sharing">Rate us</a>
+        </div>
+      </div>
+    </footer>
+    <!-- JavaScript Section -->
+    <script>
+      // 1. 獲取 Canvas 元素
+      const canvas = document.getElementById("imageCanvas");
+      const ctx = canvas.getContext("2d");
+
+      // 2. 創建一個圖片對象
+      const img = new Image();
+      img.crossOrigin = "anonymous"; // 必須設置此屬性
+      img.src = "https://i.ibb.co/HgnjLCh/map.png"; // 替換為你的圖片路徑
+   
+      // 3. 圖片加載完成後繪製到 Canvas
+      img.onload = function () {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      };
+
+
+           // 4-1. 定義事件監聽器在外面，並只綁定一次
+      canvas.addEventListener("click", function(event) {
+          // 獲取滑鼠點擊的座標
+          const x = event.offsetX;
+          const y = event.offsetY;
+
+          // 獲取點擊處的像素數據
+          const pixel = ctx.getImageData(x, y, 1, 1).data; // 獲取 1x1 的像素數據
+          const color = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+
+          console.log(`點擊位置: (${x}, ${y}), 顏色: ${color}`);
+
+          // 呼叫 redirect 函式並傳遞顏色
+          redirect(color);
+      });
+
+      // 4-2. 修改 redirect 函式，接受顏色參數並根據顏色設定 regionId
+      function redirect(color) {
+          let regionId = 0;
+
+          // 根據顏色判斷區域
+          if (color === "rgb(117, 202, 255)") { // 北部藍
+              regionId = 1;
+          } else if (color === "rgb(245, 86, 139)") { // 中部紅
+              regionId = 2;
+          } else if (color === "rgb(255, 145, 96)") { // 南部橘
+              regionId = 3;
+          } else if (color === "rgb(98, 199, 194)") { // 東部綠
+              regionId = 4;
+          } else if (color === "rgb(171, 129, 235)") { // 離島紫
+              regionId = 5;
+          } else {
+              alert("此區域沒有設定連結！");
+              return; // 如果顏色無對應區域，則不跳轉
+          }
+
+          // 根據編號跳轉並傳遞參數
+          window.location.href = "guide-B.html?regionId=" + regionId;
+      }
+
+    </script>
+   
+    
+
+   
+  </body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>

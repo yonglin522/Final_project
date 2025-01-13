@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+  
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!--Import jquery, put this before'Compiled and minified JavaScript'-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+     <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    <!-- Owl Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+
+    <!-- javascript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
+    
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="js/materialize.min.js"></script>     
+    
+    <style>
+    body {
+      background-color: #f4e3d7;  /*背景色*/
+    }
+      .form-container {
+      background-color: #FFFDE7;
+      border-radius: 15px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px 30px;
+      max-width: 500px;
+      margin: 15px auto;
+    }
+
+    .input-field {
+     display: flex;
+     align-items: center;
+}
+     .input-field label{
+       margin-left: 10px;
+       margin-top: px;
+      }
+
+    .icon-prefix {
+      margin-right: 10px; /* 圖示和文字之間的間距 */
+	  
+      font-size: 25px;
+      color: #BCAAA4;
+    }
+	
+
+    .form-title {
+      text-align: center;
+      font-size: 26px;
+      color: #424242;
+      margin-bottom: 20px;
+    }
+
+    .btn-submit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #BCAAA4;
+      color: white;
+      margin-top: 20px;
+    }
+	
+	/* 按下(active)狀態保持顏色 */
+	.btn-submit:focus, 
+	.btn-submit:active, 
+    .btn-submit:hover {
+		background-color: #BCAAA4 !important; /* 強制所有狀態的顏色一致 */
+	  }
+
+    .btn-submit i {
+      margin-right: 10px;
+    }
+    
+	.brand-logo{
+	 margin-left: 20px;
+	 font-size: 30px;
+	}
+
+
+	.col {
+		display: flex; /* 改為使用 flex 排版 */
+		justify-content: center; /* 水平置中 */
+		align-items: center; /* 垂直置中 */
+
+	}
+	
+	footer img{
+	  margin: 10px;
+	}
+	
+	
+	
+
+	
+	
+	
+	
+
+    
+  </style>
+      
+    <script type="text/javascript">
+    function formresponse() {
+      var n = document.forms["form1"]["aka"].value;
+      var g = document.forms["form1"]["gmail"].value;
+      var c = document.forms["form1"]["comments"].value;
+
+      // 檢查欄位是否為空
+      if (!n) {
+        alert("姓名/暱稱不可為空白！");
+        return false;
+      }
+      if (!g) {
+        alert("聯絡信箱不可為空白！");
+        return false;
+      }
+      if (!c) {
+        alert("留言不可為空白！");
+        return false;
+      }
+
+      // Google 表單的提交 URL
+      var formURL = `https://docs.google.com/forms/d/e/1FAIpQLSdpWHQxxDqEBfKb4-ZjanmQUmSxWjb2G8ZWt9pcFWNFgbxHYg/formResponse?entry.677701783=${encodeURIComponent(n)}&entry.590470121=${encodeURIComponent(g)}&entry.573222277=${encodeURIComponent(c)}`;
+
+      // 使用 fetch 提交，這樣才不會跳轉到google表單
+      fetch(formURL, {
+        method: "POST",
+        mode: "no-cors" //因為google表單不支持跨域操作，但這行加上去回覆還是會送達（一定要加）
+      })
+        .then(() => {
+          alert("已提交，謝謝回覆！");
+          document.forms["form1"].reset(); // 清空表單欄位
+        })
+        .catch(() => {
+          alert("提交失敗，請稍後再試！");
+        });
+
+      return false; // 阻止表單的預設行為
+    }
+  </script>  
+      
+    </head>
+
+    <body>
+      <nav class=" brown lighten-3">
+      <div class="nav-wrapper">
+        <a href="index.html"><img src="https://i.ibb.co/gF9kdy2/logo.png" alt="logo" border="0" style="height:60px;"></a>
+        <a href="index.html" class="brand-logo">台灣美食導覽地圖</a>
+
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="index.html">首頁</a></li>
+          <li><a href="about.html">關於理念</a></li>
+          <li><a href="guide-A.html">美食導覽</a></li>
+          <li><a href="contact.html">聯絡我們</a></li>
+        </ul>
+      </div>	
+		</nav>
+		
+		<div style="display: flex; justify-content: center; margin-top:15px;">
+			  <img src = "https://i.pinimg.com/originals/21/f0/92/21f0929a92ebe840eb932af199fb3260.gif" alt="會動的貓貓" style="width: 200px; height: auto;">
+		</div>
+		
+		 <div class="form-container">
+			<h5 class="form-title">聯絡我們</h5>
+			<form name="form1" onsubmit="return formresponse();">
+			  <!-- 姓名欄位 -->
+			  <div class="input-field">  
+				<input id="aka" name="aka" type="text" required>
+				<label for="aka"> <i class="material-icons icon-prefix">person</i>姓名/暱稱</label>
+			  </div>
+
+			  <!-- 聯絡信箱 -->
+			  <div class="input-field">
+				
+				 <input id="gmail" name="gmail" type="email" required>
+				<label for="gmail"><i class="material-icons icon-prefix">email</i>聯絡信箱</label>
+			  </div>
+
+			  <!-- 留言 -->
+			  <div class="input-field">
+				
+				<textarea id="comments" name="comments" class="materialize-textarea" required></textarea>
+				<label for="comments"><i class="material-icons icon-prefix">chat</i>留言</label>
+			  </div>
+
+			  <!-- 提交按鈕 -->
+			  <button type="submit" class="btn btn-submit">
+				<i class="material-icons">send</i> 提交
+			  </button>
+			</form>
+		  </div>
+		  
+		  
+		 
+		
+  <footer class="page-footer brown lighten-3">
+  <div class="container">
+    <div class="row">
+      <!-- 左半邊內容 -->
+      <div class="col s12 m6">
+        <h5 class="white-text"> Thanks for visiting my website!!:D</h5>
+      </div>
+      
+      <!-- 右半邊內容 -->
+      <div class="col s12 m6">
+   
+         <a class="grey-text text-lighten-3" href="mailto:950522lin@gmail.com"><img src="https://i.ibb.co/J7h06zf/email.png" alt="email" border="0"></a>
+         <a class="grey-text text-lighten-3" href="https://www.instagram.com/ylin._522/"><img src="https://i.ibb.co/7J6kBrF/instagram.png" alt="instagram" border="0"></a>
+         <a class="grey-text text-lighten-3" href="https://www.facebook.com/profile.php?id=100018611343996"><img src="https://i.ibb.co/swxVbBC/facebook.png" alt="facebook" border="0"></a>
+      
+      </div>
+    </div>
+  </div>
+  <!-- 版權聲明 -->
+  <div class="footer-copyright">
+    <div class="container">
+      © 2025 Copyright Text
+      <a class="grey-text text-lighten-4 right" href="https://docs.google.com/forms/d/e/1FAIpQLSevRlnLs5_9c_527IJwfi_hkhHmWIgHi4sF7HzYSi8IfEHnEQ/viewform?usp=sharing">Rate us</a>
+    </div>
+  </div>
+</footer>
+    
+    
+    
+   
+    </body>
+  </html>
+  
+  
+  
+  
+  
+  
+  

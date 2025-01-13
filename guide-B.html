@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+  
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!--Import jquery, put this before'Compiled and minified JavaScript'-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <meta charset="UTF-8">
+    
+     <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    <!-- Owl Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+     <!-- 利用Google Visualization讀取Google Sheet https://www.labnol.org/code/google-sheet-d3js-visualization-200608 -->
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- javascript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
+    
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="js/materialize.min.js"></script>     
+    
+    <style>
+    body {
+      background-color: #f4e3d7;  /*背景色*/
+    }
+	
+	footer img{
+	  margin: 10px;
+	}
+  </style>
+     
+      <script>
+    // 載入 Google Charts API
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(init);
+
+    // 定義全域變數
+    let title = [];
+    let image = [];
+    let intro = [];
+    let map = [];
+
+    // 取得 URL 中的參數
+    function GetUrlVar(varName) {
+        const regex = new RegExp('[\\?&]' + varName + '=([^&#]*)');
+        const results = regex.exec(window.location.href);
+        return results ? decodeURIComponent(results[1]) : '';
+    }
+
+    // 初始化函式
+    function init() {
+        const regionId = GetUrlVar('regionId');
+        let sheetName = '';
+
+        // 根據 regionId 指定工作表名稱
+        if (regionId === '1') {
+            sheetName = '工作表1';
+        } else if (regionId === '2') {
+            sheetName = '工作表2';
+        } else if (regionId === '3') {
+            sheetName = '工作表3';
+        } else {
+            alert('作者還沒去過，未來解鎖！:D');
+            return; // 若不符合條件則不執行後續程式
+        }
+
+        // 指定 Google 試算表網址
+        const url = `https://cors-anywhere.herokuapp.com/https://docs.google.com/spreadsheets/d/1hRYG5VxvhuvLqd7NMP6QjybNd5n7Cgwxgq-qu7g0BeU/gviz/tq?sheet=${sheetName}`;
+        const query = new google.visualization.Query(url);
+
+        query.setQuery('select *'); // 讀取所有欄位
+        query.send(processSheetsData);
+    }
+
+    // 處理試算表資料
+    function processSheetsData(response) {
+        const data = response.getDataTable();
+        const rows = data.getNumberOfRows();
+
+        // 清空之前的資料
+        title = [];
+        image = [];
+        intro = [];
+        map = [];
+
+        // 將資料存入對應的陣列
+        for (let r = 0; r < rows; r++) {
+            title.push(data.getFormattedValue(r, 1)); // 第 B 欄：標題
+            image.push(data.getFormattedValue(r, 2)); // 第 C 欄：圖片
+            intro.push(data.getFormattedValue(r, 3)); // 第 D 欄：介紹
+            map.push(data.getFormattedValue(r, 4));   // 第 E 欄：地圖連結
+        }
+
+        // 呼叫函式生成卡片
+        generateCards();
+    }
+
+    // 生成卡片
+    function generateCards() {
+        let text = '';
+
+        for (let i = 0; i < title.length; i++) {
+            text += `
+                <div class="col s12 m6 l3">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="${image[i]}" alt="${title[i]}">
+                        </div>
+                        <div class="card-content">
+                            <h5>${title[i]}</h5>
+                            <p>${intro[i]}</p>
+                        </div>
+                       <div class="card-action">
+							<a href="${map[i]}" target="_blank" style="display: flex; align-items: center; text-decoration: none;">
+								<img src="https://i.ibb.co/T4SrmxR/map-icon.png" alt="Map Icon" style="width: 24px; height: 24px; margin-right: 8px;">
+								<p style="margin: 0; color: #FF7043;">Gogo!!!</p>
+							</a>
+						</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        document.getElementById('demo').innerHTML = text;
+    }
+</script>
+	  
+	  
+	  
+	  
+	  
+</head>
+
+<body>
+    <!-- 導覽列 -->
+    <nav class="brown lighten-3">
+        <div class="nav-wrapper">
+            <a href="index.html"><img src="https://i.ibb.co/gF9kdy2/logo.png" alt="logo" style="height:60px;"></a>
+            <a href="index.html" class="brand-logo">台灣美食導覽地圖</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="about.html">關於理念</a></li>
+                <li><a href="guide-A.html">美食導覽</a></li>
+                <li><a href="contact.html">聯絡我們</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 卡片展示區 -->
+    <div class="row" id="demo"></div>
+
+    <!-- 頁尾 -->
+    <footer class="page-footer brown lighten-3">
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m6">
+                    <h5 class="white-text">Thanks for visiting my website!! :D</h5>
+                </div>
+                <div class="col s12 m6">
+                    <a href="mailto:950522lin@gmail.com"><img src="https://i.ibb.co/J7h06zf/email.png" alt="email"></a>
+                    <a href="https://www.instagram.com/ylin._522/"><img src="https://i.ibb.co/7J6kBrF/instagram.png" alt="instagram"></a>
+                    <a href="https://www.facebook.com/profile.php?id=100018611343996"><img src="https://i.ibb.co/swxVbBC/facebook.png" alt="facebook"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2025 Copyright Text
+                <a class="grey-text text-lighten-4 right" href="https://docs.google.com/forms/d/e/1FAIpQLSevRlnLs5_9c_527IJwfi_hkhHmWIgHi4sF7HzYSi8IfEHnEQ/viewform?usp=sharing">Rate us</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

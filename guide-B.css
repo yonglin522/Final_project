@@ -1,0 +1,17 @@
+.brand-logo{
+ margin-left: 20px;
+ font-size: 30px;
+}
+
+
+.col {
+    display: flex; /* 改為使用 flex 排版 */
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+
+}
+
+footer img{
+     margin:10px;
+}
+
